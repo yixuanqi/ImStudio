@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
     ImStudio::GUI gui;
     gui.bw.objects.reserve(2048);
-
+    
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;

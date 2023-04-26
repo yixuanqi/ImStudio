@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 
 #include "imgui.h"
@@ -56,6 +57,7 @@ namespace ImStudio
         bool                    child_stack                = false;                // Show Stack Tool
         bool                    child_resources            = false;                // Show Help Resources
         bool                    child_about                = false;                // Show About Window
+        
     };
 
 }

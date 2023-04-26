@@ -1,20 +1,32 @@
 #include "ims_buffer.h"
 
-void ImStudio::BufferWindow::drawall()
+void ImStudio::BufferWindow::drawall(ImVec2& vp_P, ImVec2& vp_S)
 {
     if (state)
     {
         ImVec2 parent_size = ImGui::GetWindowSize();
         ImVec2 init_size   = ImVec2(parent_size.x * 0.8, parent_size.y * 0.7);
         ImVec2 center      = ImGui::GetMainViewport()->GetCenter();
-        ImGui::SetNextWindowPos(center, ImGuiCond_Once, ImVec2(0.5f, 0.5f));
-        ImGui::SetNextWindowSize(size);
-        ImGui::SetNextWindowSize(init_size, ImGuiCond_Once);
+        //ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowPos(vp_P, ImGuiCond_Always);
+        //ImGui::SetNextWindowSize(size);
+        //ImGui::SetNextWindowSize(init_size, ImGuiCond_Always);
+        ImGui::SetNextWindowSize(vp_S, ImGuiCond_Always);
         ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.08f, 0.09f, 0.09f, 1.00f));
         ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.08f, 0.09f, 0.09f, 1.00f));
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.26f, 0.59f, 0.98f, 0.40f));
         ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.86f, 0.86f, 0.86f, 0.50f));
+        const auto windowBorderSize = ImGui::GetStyle().WindowBorderSize;
+        const auto windowRounding = ImGui::GetStyle().WindowRounding;
+
+        //ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 5.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+
         ImGui::Begin("buffer", &state);
+        utils::DrawGrid();
+        //ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, windowBorderSize);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, windowRounding);
+
         size = ImGui::GetWindowSize();
         pos  = ImGui::GetWindowPos();
         {
@@ -34,12 +46,12 @@ void ImStudio::BufferWindow::drawall()
                 (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(1))))
             {
                 ImGui::OpenPopup("bwcontextmenu");
-
             }
             if (ImGui::BeginPopupContextWindow("bwcontextmenu"))
             {
                 if (ImGui::BeginMenu("Add"))
                 {
+
                     if (ImGui::BeginMenu("Primitives"))
                     {
                         if (ImGui::MenuItem("Button"))
@@ -129,6 +141,8 @@ void ImStudio::BufferWindow::drawall()
                 }
             }
         }
+        //ImGui::PopStyleVar(2);
+        ImGui::PopStyleVar(2);
         ImGui::End();
         ImGui::PopStyleColor(4);
     }

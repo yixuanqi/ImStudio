@@ -25,7 +25,7 @@ namespace ImStudio
     
       std::vector<Object>     objects                 = {};                   //
   
-      void                    drawall                 ();
+      void                    drawall                 (ImVec2 &vp_P, ImVec2 &vp_S);
       Object *                getobj                  (int id);
       BaseObject *            getbaseobj              (int id);
       void                    create                  (std::string type_, bool atcursor = false);
